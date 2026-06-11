@@ -1,0 +1,82 @@
+.alien-page {
+  width: min(1320px, calc(100vw - 28px));
+}
+
+.faceplate {
+  aspect-ratio: 16 / 8.55;
+  min-height: 620px;
+  padding: 24px 30px 26px;
+}
+
+.control-box {
+  left: 44px;
+  right: 42px;
+  top: 64px;
+  width: auto;
+  height: 66%;
+}
+
+.dial-grid {
+  inset: 24px 42px 128px 42px;
+  grid-template-columns: repeat(3, minmax(145px, 1fr)) minmax(170px, 0.9fr);
+  gap: 18px 24px;
+}
+
+.lower-controls {
+  left: 54px;
+  right: 54px;
+  bottom: 30px;
+  grid-template-columns: 1.2fr 0.9fr 1.05fr 0.9fr;
+  gap: 22px;
+}
+
+.output-level {
+  transform: translateY(0);
+}
+
+.output-level .dial-face {
+  width: clamp(108px, 8.4vw, 136px);
+  height: clamp(108px, 8.4vw, 136px);
+}
+
+.brand-area {
+  bottom: -112px;
+  grid-template-columns: 0.9fr 0.8fr 0.45fr 0.8fr;
+  gap: 16px;
+}
+
+.power-area {
+  transform: translateY(0);
+}
+
+.mfos-logo strong {
+  font-size: clamp(2.6rem, 4.4vw, 4.3rem);
+}
+
+.mfos-line {
+  width: 78%;
+}
+
+.alien-title {
+  font-size: clamp(1.45rem, 2.35vw, 2.25rem);
+}
+
+.alien-head {
+  width: 60px;
+  height: 82px;
+}
+
+.status-line {
+  right: 30px;
+  bottom: 8px;
+}
+
+.scope-panel {
+  margin-top: 0;
+}
+
+@media (min-width: 981px) {
+  .power-area {
+    grid-column: 4;
+  }
+}
