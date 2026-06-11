@@ -40,7 +40,7 @@ input { font: inherit; }
 
 .synth-frame {
   aspect-ratio: 16 / 9;
-  min-height: 720px;
+  min-height: clamp(760px, 56.25vw, 860px);
   border: 1px solid var(--line);
   border-radius: 28px;
   padding: clamp(18px, 2vw, 34px);
@@ -49,7 +49,7 @@ input { font: inherit; }
     linear-gradient(180deg, #303842 0%, #1b2026 100%);
   box-shadow: 0 26px 70px var(--shadow);
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 18px;
 }
 
@@ -122,31 +122,24 @@ h2 {
 }
 
 .panel-grid {
-  min-height: 0;
+  min-height: 520px;
   display: grid;
   grid-template-columns: 1.15fr 1.15fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: minmax(250px, 1fr) minmax(250px, 1fr);
   gap: 16px;
 }
 
 .module-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: 18px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 12px;
 }
 
-.module-card::after {
-  content: "";
-  position: absolute;
-  inset: auto 16px 14px auto;
-  width: 68px;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.12);
-}
+.module-card::after { display: none; }
 
 .vco { grid-column: span 1; grid-row: span 2; }
 .lfo { grid-column: span 1; grid-row: span 2; }
@@ -156,12 +149,12 @@ h2 {
 .module-note {
   color: var(--muted);
   font-size: 0.92rem;
-  margin-bottom: 18px;
+  margin-bottom: 4px;
 }
 
 .controls {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .two-col {
@@ -171,15 +164,13 @@ h2 {
 .knob-control {
   display: grid;
   justify-items: center;
-  gap: 8px;
+  gap: 7px;
   min-width: 0;
 }
 
 .knob {
-  width: min(12vw, 128px);
-  height: min(12vw, 128px);
-  min-width: 92px;
-  min-height: 92px;
+  width: clamp(76px, 7.4vw, 116px);
+  height: clamp(76px, 7.4vw, 116px);
   border-radius: 999px;
   border: 2px solid rgba(255,255,255,0.22);
   background:
@@ -188,9 +179,14 @@ h2 {
   box-shadow:
     inset 0 0 0 10px rgba(255,255,255,0.035),
     inset 0 -14px 22px rgba(0,0,0,0.45),
-    0 18px 28px rgba(0,0,0,0.35);
+    0 14px 24px rgba(0,0,0,0.32);
   position: relative;
   transform: rotate(var(--turn));
+}
+
+.amp .knob {
+  width: clamp(72px, 6.5vw, 98px);
+  height: clamp(72px, 6.5vw, 98px);
 }
 
 .knob::before {
@@ -229,7 +225,7 @@ input[type="range"] {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 18px;
+  margin-top: auto;
 }
 
 .toggle-control {
@@ -253,9 +249,9 @@ input[type="range"] {
   border: 1px solid var(--line);
   border-radius: 18px;
   display: grid;
-  gap: 8px;
-  padding: 12px 14px;
-  margin: 18px 0 0;
+  gap: 7px;
+  padding: 10px 14px;
+  margin: auto 0 0;
 }
 
 .shape-select legend {
@@ -280,7 +276,7 @@ input[type="range"] {
   width: 100%;
   border: 1px solid rgba(255,255,255,0.22);
   border-radius: 16px;
-  padding: 13px 16px;
+  padding: 11px 16px;
   cursor: pointer;
   font-weight: 900;
   text-transform: uppercase;
@@ -288,13 +284,13 @@ input[type="range"] {
 }
 
 .primary-button {
-  margin-top: 14px;
+  margin-top: auto;
   background: var(--hot);
   color: #101410;
 }
 
 .secondary-button {
-  margin-top: 10px;
+  margin-top: 0;
   background: rgba(0,0,0,0.18);
   color: var(--ink);
 }
@@ -302,31 +298,31 @@ input[type="range"] {
 .jack-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
 
 .jack {
-  min-height: 54px;
-  border-radius: 16px;
+  min-height: 44px;
+  border-radius: 15px;
   border: 1px solid var(--line);
   background: rgba(0,0,0,0.18);
   color: var(--ink);
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 900;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   position: relative;
-  padding-top: 24px;
+  padding: 21px 8px 7px;
 }
 
 .jack::before {
   content: "";
   position: absolute;
-  top: 8px;
+  top: 7px;
   left: 50%;
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   transform: translateX(-50%);
   border-radius: 999px;
   background: var(--jack-in);
@@ -336,7 +332,7 @@ input[type="range"] {
 .jack.output::before { background: var(--jack-out); }
 .jack.active { outline: 2px solid var(--hot); }
 
-.bus-toggle { margin-top: 12px; justify-content: center; }
+.bus-toggle { margin-top: auto; justify-content: center; }
 
 .scope-panel {
   padding: 12px 16px;
@@ -346,7 +342,7 @@ input[type="range"] {
 
 #scope {
   width: 100%;
-  height: 108px;
+  height: 92px;
   display: block;
   border-radius: 16px;
   background: rgba(0,0,0,0.24);
@@ -378,12 +374,13 @@ input[type="range"] {
 @media (max-width: 980px) {
   .synth-frame { aspect-ratio: auto; min-height: auto; }
   .top-rail { align-items: flex-start; flex-direction: column; gap: 12px; }
-  .panel-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .panel-grid { grid-template-columns: 1fr; grid-template-rows: auto; min-height: 0; }
   .vco,
   .lfo,
   .amp,
   .patch { grid-column: auto; grid-row: auto; }
-  .knob { width: 108px; height: 108px; }
+  .knob,
+  .amp .knob { width: 108px; height: 108px; }
 }
 
 @media (max-width: 560px) {
