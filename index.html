@@ -4,134 +4,143 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MerrinLab Alien Screamer</title>
-  <meta name="description" content="Standalone MerrinLab Alien Screamer browser synth: a small MFOS-inspired noise box with CV-style patch points and shared MerrinLab patch bus support." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="issue-1-final.css" />
+  <meta name="description" content="Standalone MerrinLab Alien Screamer browser synth with an MFOS-inspired faceplate layout and shared MerrinLab patch bus support." />
+  <link rel="stylesheet" href="faceplate.css" />
 </head>
 <body>
-  <main class="page-shell">
-    <section class="synth-frame" aria-labelledby="synth-title">
-      <header class="top-rail">
-        <div>
-          <p class="eyebrow">MerrinLab standalone instrument</p>
-          <h1 id="synth-title">Alien Screamer</h1>
-        </div>
-        <div class="status-strip" aria-live="polite">
-          <span class="lamp" id="powerLamp" aria-hidden="true"></span>
-          <span id="engineStatus">ENGINE OFF</span>
-          <span class="divider">·</span>
-          <span id="busStatus">PATCH BUS READY</span>
-        </div>
-      </header>
+  <main class="alien-page">
+    <section class="faceplate" aria-labelledby="synth-title">
+      <div class="panel-url">musicfromouterspace.com</div>
+      <span class="screw s1" aria-hidden="true"></span>
+      <span class="screw s2" aria-hidden="true"></span>
+      <span class="screw s3" aria-hidden="true"></span>
+      <span class="screw s4" aria-hidden="true"></span>
+      <span class="screw s5" aria-hidden="true"></span>
+      <span class="screw s6" aria-hidden="true"></span>
+      <span class="screw s7" aria-hidden="true"></span>
 
-      <div class="panel-grid">
-        <section class="module-card vco" aria-labelledby="vco-title">
-          <h2 id="vco-title">VCO</h2>
-          <p class="module-note">Ramp-core style voice</p>
-          <div class="controls two-col">
-            <label class="knob-control">
-              <span class="knob" data-for="pitch" style="--turn: 46deg"></span>
-              <span class="label">Pitch</span>
+      <section class="control-box" aria-label="Alien Screamer controls">
+        <div class="dial-grid">
+          <label class="dial-control">
+            <span class="dial-title">VCO Frequency</span>
+            <span class="dial-face">
+              <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
+              <span class="knob" data-for="pitch" aria-hidden="true"></span>
               <input id="pitch" type="range" min="40" max="1800" value="220" step="1" />
-              <output id="pitchOut">220 Hz</output>
-            </label>
-            <label class="knob-control">
-              <span class="knob" data-for="fine" style="--turn: 0deg"></span>
-              <span class="label">Fine</span>
-              <input id="fine" type="range" min="-100" max="100" value="0" step="1" />
-              <output id="fineOut">0 ct</output>
-            </label>
+            </span>
+            <output id="pitchOut">220 Hz</output>
+          </label>
+
+          <label class="dial-control">
+            <span class="dial-title">LFO Modulation</span>
+            <span class="dial-face">
+              <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
+              <span class="knob" data-for="depth" aria-hidden="true"></span>
+              <input id="depth" type="range" min="0" max="900" value="240" step="1" />
+            </span>
+            <output id="depthOut">240 Hz</output>
+          </label>
+
+          <label class="dial-control">
+            <span class="dial-title">LFO Frequency</span>
+            <span class="dial-face">
+              <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
+              <span class="knob" data-for="rate" aria-hidden="true"></span>
+              <input id="rate" type="range" min="0.2" max="28" value="3.2" step="0.1" />
+            </span>
+            <output id="rateOut">3.2 Hz</output>
+          </label>
+
+          <div class="output-jack-area">
+            <span class="output-label">Output</span>
+            <button class="panel-jack jack output" type="button" data-jack="audio" aria-label="Audio output"></button>
           </div>
-          <div class="switch-row">
-            <label class="toggle-control">
+        </div>
+
+        <div class="lower-controls">
+          <fieldset class="shape-area">
+            <legend class="control-heading">Modulation Shape</legend>
+            <div class="shape-options">
+              <label class="wave-option">
+                <span class="wave-mark wave-smooth" aria-hidden="true"></span>
+                <input type="radio" name="shape" value="smooth" />
+              </label>
+              <label class="wave-option">
+                <span class="wave-mark wave-spike" aria-hidden="true"></span>
+                <input type="radio" name="shape" value="spike" />
+              </label>
+              <label class="wave-option">
+                <span class="wave-mark wave-square" aria-hidden="true"></span>
+                <input type="radio" name="shape" value="square" checked />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="sync-area">
+            <legend class="control-heading">Sync Effect</legend>
+            <label class="sync-toggle">
               <input id="sync" type="checkbox" />
-              <span>Sync bite</span>
+              <span>Off</span>
             </label>
-            <label class="toggle-control">
+            <label class="sync-toggle service-controls">
               <input id="drone" type="checkbox" checked />
               <span>Drone</span>
             </label>
-          </div>
-        </section>
-
-        <section class="module-card lfo" aria-labelledby="lfo-title">
-          <h2 id="lfo-title">LFO</h2>
-          <p class="module-note">Modulation shape and depth</p>
-          <div class="controls two-col">
-            <label class="knob-control">
-              <span class="knob" data-for="rate" style="--turn: -50deg"></span>
-              <span class="label">Rate</span>
-              <input id="rate" type="range" min="0.2" max="28" value="3.2" step="0.1" />
-              <output id="rateOut">3.2 Hz</output>
-            </label>
-            <label class="knob-control">
-              <span class="knob" data-for="depth" style="--turn: 30deg"></span>
-              <span class="label">Depth</span>
-              <input id="depth" type="range" min="0" max="900" value="240" step="1" />
-              <output id="depthOut">240 Hz</output>
-            </label>
-          </div>
-          <fieldset class="shape-select">
-            <legend>Shape</legend>
-            <label><input type="radio" name="shape" value="square" checked /> Square</label>
-            <label><input type="radio" name="shape" value="smooth" /> Smooth</label>
-            <label><input type="radio" name="shape" value="spike" /> Spike</label>
           </fieldset>
-        </section>
 
-        <section class="module-card amp" aria-labelledby="amp-title">
-          <h2 id="amp-title">AMP</h2>
-          <p class="module-note">Lo-fi speaker / line voice</p>
-          <div class="controls two-col">
-            <label class="knob-control">
-              <span class="knob" data-for="scream" style="--turn: 22deg"></span>
-              <span class="label">Scream</span>
-              <input id="scream" type="range" min="0" max="1" value="0.34" step="0.01" />
-              <output id="screamOut">34%</output>
-            </label>
-            <label class="knob-control">
-              <span class="knob" data-for="level" style="--turn: -8deg"></span>
-              <span class="label">Level</span>
+          <label class="dial-control output-level">
+            <span class="dial-title">Output Level</span>
+            <span class="dial-face">
+              <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
+              <span class="knob" data-for="level" aria-hidden="true"></span>
               <input id="level" type="range" min="0" max="0.8" value="0.18" step="0.01" />
-              <output id="levelOut">18%</output>
-            </label>
-          </div>
-          <button class="primary-button" id="startButton" type="button">Start audio</button>
-          <button class="secondary-button" id="panicButton" type="button">Panic / mute</button>
-        </section>
-
-        <section class="module-card patch" aria-labelledby="patch-title">
-          <h2 id="patch-title">Patch bay</h2>
-          <p class="module-note">MerrinLab connection points</p>
-          <div class="jack-grid" role="list" aria-label="Patch points">
-            <button class="jack input" type="button" data-jack="pitchCV" role="listitem">Pitch CV In</button>
-            <button class="jack input" type="button" data-jack="gate" role="listitem">Gate In</button>
-            <button class="jack input" type="button" data-jack="sync" role="listitem">Sync In</button>
-            <button class="jack input" type="button" data-jack="clock" role="listitem">Clock In</button>
-            <button class="jack output" type="button" data-jack="lfo" role="listitem">LFO Out</button>
-            <button class="jack output" type="button" data-jack="audio" role="listitem">Audio Out</button>
-          </div>
-          <label class="toggle-control bus-toggle">
-            <input id="busEnabled" type="checkbox" checked />
-            <span>Use MerrinLab patch bus</span>
+            </span>
+            <output id="levelOut">18%</output>
           </label>
-        </section>
-      </div>
 
-      <section class="scope-panel" aria-label="Signal monitor">
-        <canvas id="scope" width="900" height="120"></canvas>
-        <div class="readouts">
-          <span id="freqReadout">VCO 220 Hz</span>
-          <span id="lfoReadout">LFO +0.00</span>
-          <span id="gateReadout">GATE OPEN</span>
+          <div class="power-area">
+            <span class="control-heading">Power</span>
+            <div class="power-controls">
+              <span>Off</span>
+              <button class="power-button" id="startButton" type="button">Start audio</button>
+              <span>On</span>
+            </div>
+            <button class="secondary-button service-controls" id="panicButton" type="button">Panic / mute</button>
+          </div>
+        </div>
+
+        <div class="brand-area">
+          <div class="mfos-logo" aria-hidden="true">
+            <strong>MFOS</strong>
+            <span class="mfos-line"></span>
+          </div>
+          <h1 id="synth-title" class="alien-title">Alien<br />Screamer</h1>
+          <div class="alien-head" aria-hidden="true"><span class="alien-mouth"></span></div>
         </div>
       </section>
+
+      <div class="status-line" aria-live="polite">
+        <span class="lamp" id="powerLamp" aria-hidden="true"></span>
+        <span id="engineStatus">ENGINE OFF</span>
+        <span>·</span>
+        <span id="busStatus">PATCH BUS READY</span>
+        <label class="service-controls"><input id="busEnabled" type="checkbox" checked /> Patch bus</label>
+      </div>
     </section>
 
-    <aside class="notes-card">
+    <section class="scope-panel" aria-label="Signal monitor">
+      <canvas id="scope" width="900" height="120"></canvas>
+      <div class="readouts">
+        <span id="freqReadout">VCO 220 Hz</span>
+        <span id="lfoReadout">LFO +0.00</span>
+        <span id="gateReadout">GATE OPEN</span>
+      </div>
+    </section>
+
+    <aside class="connection-note">
       <h2>Connection rule</h2>
       <p>This repo is its own instrument. It connects to the other MFOS browser synths through a shared browser message bus, not by copying their code.</p>
-      <p><strong>Good enough v0.1:</strong> standalone audio works, patch names are standardised, and future modules can speak the same control language.</p>
+      <p><strong>Good enough v0.2:</strong> the interface follows the original Alien Screamer faceplate while keeping the standalone synth and patch-bus behaviour.</p>
     </aside>
   </main>
   <script src="src/merrinlab-patch-bus.js"></script>
