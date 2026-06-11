@@ -40,7 +40,7 @@ input { font: inherit; }
 
 .synth-frame {
   aspect-ratio: 16 / 9;
-  min-height: clamp(760px, 56.25vw, 860px);
+  min-height: clamp(780px, 56.25vw, 880px);
   border: 1px solid var(--line);
   border-radius: 28px;
   padding: clamp(18px, 2vw, 34px);
@@ -122,21 +122,21 @@ h2 {
 }
 
 .panel-grid {
-  min-height: 520px;
+  min-height: 0;
   display: grid;
-  grid-template-columns: 1.15fr 1.15fr 1fr;
-  grid-template-rows: minmax(250px, 1fr) minmax(250px, 1fr);
+  grid-template-columns: 1.16fr 1.16fr 1fr;
+  grid-template-rows: minmax(245px, 1fr) minmax(245px, 1fr);
   gap: 16px;
 }
 
 .module-card {
   position: relative;
-  overflow: visible;
-  padding: 18px;
+  overflow: hidden;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .module-card::after { display: none; }
@@ -148,13 +148,13 @@ h2 {
 
 .module-note {
   color: var(--muted);
-  font-size: 0.92rem;
-  margin-bottom: 4px;
+  font-size: 0.9rem;
+  margin-bottom: 2px;
 }
 
 .controls {
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .two-col {
@@ -164,13 +164,13 @@ h2 {
 .knob-control {
   display: grid;
   justify-items: center;
-  gap: 7px;
+  gap: 6px;
   min-width: 0;
 }
 
 .knob {
-  width: clamp(76px, 7.4vw, 116px);
-  height: clamp(76px, 7.4vw, 116px);
+  width: clamp(74px, 7vw, 108px);
+  height: clamp(74px, 7vw, 108px);
   border-radius: 999px;
   border: 2px solid rgba(255,255,255,0.22);
   background:
@@ -179,20 +179,38 @@ h2 {
   box-shadow:
     inset 0 0 0 10px rgba(255,255,255,0.035),
     inset 0 -14px 22px rgba(0,0,0,0.45),
-    0 14px 24px rgba(0,0,0,0.32);
+    0 12px 20px rgba(0,0,0,0.30);
   position: relative;
   transform: rotate(var(--turn));
 }
 
+.amp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 8px 10px;
+}
+
+.amp h2,
+.amp .module-note,
+.amp .controls { grid-column: 1 / -1; }
+
+.amp .module-note {
+  font-size: 0.86rem;
+  margin-bottom: 0;
+}
+
+.amp .controls { gap: 8px; }
+
 .amp .knob {
-  width: clamp(72px, 6.5vw, 98px);
-  height: clamp(72px, 6.5vw, 98px);
+  width: clamp(58px, 5.6vw, 86px);
+  height: clamp(58px, 5.6vw, 86px);
 }
 
 .knob::before {
   content: "";
   position: absolute;
-  top: 9px;
+  top: 8px;
   left: 50%;
   width: 5px;
   height: 31%;
@@ -204,7 +222,7 @@ h2 {
 
 .label {
   color: var(--ink);
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -212,7 +230,7 @@ h2 {
 
 output {
   color: var(--muted);
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-variant-numeric: tabular-nums;
 }
 
@@ -234,10 +252,10 @@ input[type="range"] {
   gap: 8px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 9px 12px;
+  padding: 8px 11px;
   color: var(--muted);
   background: rgba(0,0,0,0.14);
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -275,64 +293,83 @@ input[type="range"] {
 .secondary-button {
   width: 100%;
   border: 1px solid rgba(255,255,255,0.22);
-  border-radius: 16px;
-  padding: 11px 16px;
+  border-radius: 14px;
+  padding: 9px 10px;
   cursor: pointer;
+  font-size: 0.82rem;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
 }
 
 .primary-button {
-  margin-top: auto;
+  grid-column: 1;
+  margin-top: 0;
   background: var(--hot);
   color: #101410;
 }
 
 .secondary-button {
+  grid-column: 2;
   margin-top: 0;
   background: rgba(0,0,0,0.18);
   color: var(--ink);
 }
 
-.jack-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.patch {
   gap: 8px;
 }
 
+.patch h2 { margin-bottom: 0; }
+
+.patch .module-note {
+  font-size: 0.84rem;
+  margin-bottom: 0;
+}
+
+.jack-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
 .jack {
-  min-height: 44px;
-  border-radius: 15px;
+  min-height: 38px;
+  border-radius: 13px;
   border: 1px solid var(--line);
   background: rgba(0,0,0,0.18);
   color: var(--ink);
   cursor: pointer;
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   position: relative;
-  padding: 21px 8px 7px;
+  padding: 19px 6px 6px;
 }
 
 .jack::before {
   content: "";
   position: absolute;
-  top: 7px;
+  top: 6px;
   left: 50%;
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   transform: translateX(-50%);
   border-radius: 999px;
   background: var(--jack-in);
-  box-shadow: 0 0 0 5px rgba(255,255,255,0.08), inset 0 0 0 3px rgba(0,0,0,0.3);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.08), inset 0 0 0 3px rgba(0,0,0,0.3);
 }
 
 .jack.output::before { background: var(--jack-out); }
 .jack.active { outline: 2px solid var(--hot); }
 
-.bus-toggle { margin-top: auto; justify-content: center; }
+.bus-toggle {
+  margin-top: auto;
+  justify-content: center;
+  font-size: 0.74rem;
+  padding: 7px 9px;
+}
 
 .scope-panel {
   padding: 12px 16px;
@@ -342,7 +379,7 @@ input[type="range"] {
 
 #scope {
   width: 100%;
-  height: 92px;
+  height: 82px;
   display: block;
   border-radius: 16px;
   background: rgba(0,0,0,0.24);
@@ -353,7 +390,7 @@ input[type="range"] {
   justify-content: space-between;
   gap: 12px;
   color: var(--muted);
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 850;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -379,6 +416,7 @@ input[type="range"] {
   .lfo,
   .amp,
   .patch { grid-column: auto; grid-row: auto; }
+  .amp { grid-template-columns: 1fr 1fr; }
   .knob,
   .amp .knob { width: 108px; height: 108px; }
 }
@@ -387,6 +425,9 @@ input[type="range"] {
   .page-shell { width: min(100vw - 16px, 1500px); margin: 8px auto; }
   .synth-frame { border-radius: 18px; padding: 14px; }
   .two-col,
-  .jack-grid { grid-template-columns: 1fr; }
+  .jack-grid,
+  .amp { grid-template-columns: 1fr; }
+  .primary-button,
+  .secondary-button { grid-column: 1; }
   .readouts { flex-direction: column; }
 }
