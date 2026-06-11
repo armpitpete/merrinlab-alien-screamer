@@ -1,0 +1,94 @@
+.control-box {
+  height: 62%;
+  overflow: visible;
+}
+
+.dial-grid {
+  inset: 24px 54px auto 54px;
+  height: 188px;
+  grid-template-columns: repeat(3, minmax(145px, 1fr)) minmax(150px, 0.85fr);
+}
+
+.lower-controls {
+  position: absolute;
+  left: 54px;
+  right: 54px;
+  bottom: 30px;
+  height: 164px;
+  width: auto;
+  display: block;
+}
+
+.shape-area,
+.sync-area,
+.output-level,
+.power-area {
+  margin: 0;
+}
+
+.shape-area {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+}
+
+.sync-area {
+  position: absolute;
+  left: 350px;
+  bottom: 0;
+  width: 230px;
+}
+
+.output-level {
+  position: absolute;
+  right: 82px;
+  top: -28px;
+  width: 190px;
+  transform: none;
+  z-index: 2;
+}
+
+.output-level .dial-title {
+  font-size: clamp(0.82rem, 1.2vw, 1rem);
+  white-space: nowrap;
+}
+
+.output-level .dial-face {
+  width: clamp(120px, 8.8vw, 148px);
+  height: clamp(120px, 8.8vw, 148px);
+}
+
+.power-area {
+  position: absolute;
+  right: 0;
+  bottom: -104px;
+  width: 230px;
+  transform: none;
+  justify-items: center;
+  z-index: 2;
+}
+
+.power-controls {
+  grid-template-columns: auto auto auto;
+}
+
+.brand-area {
+  bottom: -108px;
+  grid-template-columns: 0.9fr 0.8fr 0.45fr 0.8fr;
+}
+
+@media (max-width: 980px) {
+  .lower-controls,
+  .shape-area,
+  .sync-area,
+  .output-level,
+  .power-area {
+    position: static;
+    width: auto;
+  }
+
+  .lower-controls {
+    display: grid;
+  }
+}
