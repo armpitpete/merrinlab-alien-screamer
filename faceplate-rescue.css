@@ -1,0 +1,56 @@
+.control-box {
+  height: 62%;
+}
+
+.dial-grid {
+  inset: 24px 54px 132px 54px;
+  grid-template-columns: repeat(3, minmax(145px, 1fr)) minmax(150px, 0.85fr);
+}
+
+.lower-controls {
+  left: 54px;
+  right: 54px;
+  bottom: 32px;
+  width: auto;
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr 1.05fr 0.9fr;
+  align-items: end;
+  gap: 22px;
+}
+
+.output-level,
+.power-area {
+  position: static;
+  width: auto;
+  transform: none;
+}
+
+.output-level .dial-face {
+  width: clamp(108px, 8.4vw, 136px);
+  height: clamp(108px, 8.4vw, 136px);
+}
+
+.power-area {
+  align-self: end;
+  justify-self: end;
+}
+
+.power-controls {
+  gap: 10px;
+}
+
+.brand-area {
+  bottom: -105px;
+  grid-template-columns: 0.9fr 0.8fr 0.45fr 0.7fr;
+}
+
+.status-line {
+  right: 26px;
+  bottom: 4px;
+}
+
+@media (max-width: 980px) {
+  .lower-controls {
+    width: auto;
+  }
+}
