@@ -129,6 +129,13 @@
       </div>
     </section>
 
+    <div class="service-controls" aria-hidden="true">
+      <input id="fine" type="range" min="-100" max="100" value="0" step="1" />
+      <output id="fineOut">0 ct</output>
+      <input id="scream" type="range" min="0" max="1" value="0.34" step="0.01" />
+      <output id="screamOut">34%</output>
+    </div>
+
     <section class="scope-panel" aria-label="Signal monitor">
       <canvas id="scope" width="900" height="120"></canvas>
       <div class="readouts">
