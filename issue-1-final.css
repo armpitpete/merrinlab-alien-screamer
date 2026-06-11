@@ -1,0 +1,129 @@
+.synth-frame {
+  min-height: clamp(840px, 58vw, 940px);
+}
+
+.panel-grid {
+  grid-template-rows: minmax(275px, 1.06fr) minmax(255px, 0.94fr);
+}
+
+.amp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto auto;
+  align-content: start;
+  gap: 6px 10px;
+  padding: 14px;
+}
+
+.amp h2,
+.amp .module-note,
+.amp .controls {
+  grid-column: 1 / -1;
+}
+
+.amp h2 {
+  font-size: clamp(1.1rem, 1.45vw, 1.65rem);
+  margin-bottom: 0;
+}
+
+.amp .module-note {
+  display: none;
+}
+
+.amp .controls {
+  gap: 6px;
+}
+
+.amp .knob-control {
+  gap: 4px;
+}
+
+.amp .knob {
+  width: clamp(52px, 5.1vw, 76px);
+  height: clamp(52px, 5.1vw, 76px);
+}
+
+.amp .label,
+.amp output {
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.amp input[type="range"] {
+  width: min(132px, 100%);
+}
+
+.primary-button,
+.secondary-button {
+  border-radius: 12px;
+  padding: 8px 9px;
+  font-size: 0.72rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+
+.primary-button {
+  grid-column: 1;
+  margin-top: 4px;
+}
+
+.secondary-button {
+  grid-column: 2;
+  margin-top: 4px;
+}
+
+.patch {
+  gap: 6px;
+  padding: 14px;
+}
+
+.patch h2 {
+  margin-bottom: 0;
+  font-size: clamp(1.2rem, 1.55vw, 1.75rem);
+}
+
+.patch .module-note {
+  font-size: 0.78rem;
+  margin-bottom: 0;
+}
+
+.jack-grid {
+  gap: 5px;
+}
+
+.jack {
+  min-height: 34px;
+  border-radius: 12px;
+  font-size: 0.62rem;
+  line-height: 1;
+  padding: 17px 5px 5px;
+}
+
+.jack::before {
+  top: 5px;
+  width: 10px;
+  height: 10px;
+}
+
+.bus-toggle {
+  margin-top: auto;
+  justify-content: center;
+  font-size: 0.64rem;
+  line-height: 1;
+  padding: 6px 8px;
+}
+
+.scope-panel {
+  padding: 10px 16px 12px;
+}
+
+#scope {
+  height: 72px;
+}
+
+.readouts {
+  min-height: 20px;
+  align-items: center;
+  font-size: 0.8rem;
+  line-height: 1;
+}
