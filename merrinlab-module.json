@@ -1,0 +1,51 @@
+{
+  "id": "merrinlab-alien-screamer",
+  "name": "MerrinLab Alien Screamer",
+  "type": "standalone-browser-synth",
+  "protocol": "merrinlab.patch.v0.1",
+  "version": "0.1.0",
+  "format": "plain-html-css-js",
+  "patchPoints": [
+    {
+      "id": "pitchCV",
+      "label": "Pitch CV In",
+      "direction": "input",
+      "message": "pitch-cv"
+    },
+    {
+      "id": "gate",
+      "label": "Gate In",
+      "direction": "input",
+      "message": "gate"
+    },
+    {
+      "id": "sync",
+      "label": "Sync In",
+      "direction": "input",
+      "message": "clock"
+    },
+    {
+      "id": "clock",
+      "label": "Clock In",
+      "direction": "input",
+      "message": "clock"
+    },
+    {
+      "id": "lfo",
+      "label": "LFO Out",
+      "direction": "output",
+      "message": "module-state.outputs.lfo"
+    },
+    {
+      "id": "audio",
+      "label": "Audio Out",
+      "direction": "output",
+      "message": "module-state.outputs.audioLevel"
+    }
+  ],
+  "relatedRepos": [
+    "armpitpete/merrinlab-ultimate-synth",
+    "armpitpete/merrinlab-16-step-sequencer",
+    "armpitpete/merrinlab-vcv"
+  ]
+}
