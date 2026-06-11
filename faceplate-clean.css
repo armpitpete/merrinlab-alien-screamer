@@ -1,0 +1,25 @@
+.faceplate .s3,
+.faceplate .s4,
+.faceplate .s7 {
+  display: none;
+}
+
+.faceplate .s1 {
+  top: 24px;
+  left: 13%;
+}
+
+.faceplate .s2 {
+  top: 24px;
+  right: 17%;
+}
+
+.faceplate .s5 {
+  bottom: 24px;
+  left: 13%;
+}
+
+.faceplate .s6 {
+  bottom: 24px;
+  right: 17%;
+}
