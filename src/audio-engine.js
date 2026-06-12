@@ -45,7 +45,7 @@
     async loadWorklet() {
       if (!this.context.audioWorklet) return;
       try {
-        await this.context.audioWorklet.addModule("src/resettable-ramp-processor.js");
+        await this.context.audioWorklet.addModule("src/resettable-ramp-processor.js?v=sync-audio");
         this.workletReady = true;
       } catch (error) {
         console.warn("Resettable ramp AudioWorklet failed to load; falling back to OscillatorNode.", error);
@@ -88,16 +88,18 @@
       this.stop();
     }
 
-    update({ frequency, level, scream, gate, syncBite }) {
+    update({ frequency, level, scream, gate, syncBite, sync, lfoRate }) {
       if (!this.context || !this.source) return;
       const now = this.context.currentTime;
       const safeFrequency = Math.max(1, Math.min(20000, frequency));
+      const safeLfoRate = Math.max(0.01, Math.min(200, lfoRate || 0.01));
       const safeLevel = Math.max(0, Math.min(0.8, level));
       const gateLevel = gate ? 1 : 0;
 
       if (this.usingResettableRamp) {
-        const frequencyParam = this.source.parameters.get("frequency");
-        frequencyParam.setTargetAtTime(safeFrequency, now, 0.008);
+        this.source.parameters.get("frequency").setTargetAtTime(safeFrequency, now, 0.008);
+        this.source.parameters.get("lfoRate").setTargetAtTime(safeLfoRate, now, 0.008);
+        this.source.parameters.get("syncEnabled").setTargetAtTime(sync ? 1 : 0, now, 0.002);
       } else {
         const syncBoost = syncBite ? 1.08 : 1;
         this.source.frequency.setTargetAtTime(safeFrequency * syncBoost, now, 0.008);
