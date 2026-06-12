@@ -1,56 +1,210 @@
+.alien-page {
+  width: min(1180px, calc(100vw - 28px)) !important;
+}
+
+.faceplate {
+  position: relative !important;
+  aspect-ratio: 683 / 498 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: url("assets/alien-screamer-faceplate.svg") center / contain no-repeat !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34) !important;
+}
+
+.panel-url,
+.screw,
+.dial-title,
+.scale-number,
+.knob,
+.output-label,
+.control-heading,
+.wave-mark,
+.sync-toggle span,
+.brand-area,
+.output,
+.dial-control output {
+  display: none !important;
+}
+
 .control-box {
-  height: 62%;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
 }
 
-.dial-grid {
-  inset: 24px 54px 132px 54px;
-  grid-template-columns: repeat(3, minmax(145px, 1fr)) minmax(150px, 0.85fr);
-}
-
+.dial-grid,
 .lower-controls {
-  left: 54px;
-  right: 54px;
-  bottom: 32px;
-  width: auto;
-  display: grid;
-  grid-template-columns: 1.25fr 0.95fr 1.05fr 0.9fr;
-  align-items: end;
-  gap: 22px;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
 }
 
-.output-level,
+.dial-control,
+.output-jack-area,
+.shape-area,
+.sync-area,
+.power-area,
+.output-level {
+  position: absolute !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+.dial-control .dial-face {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.dial-control input[type="range"],
+.panel-jack,
+.power-button {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+}
+
+.dial-grid > .dial-control:nth-child(1) {
+  left: 12.8% !important;
+  top: 18.2% !important;
+  width: 13.4% !important;
+  height: 21.5% !important;
+}
+
+.dial-grid > .dial-control:nth-child(2) {
+  left: 32.3% !important;
+  top: 18.2% !important;
+  width: 13.4% !important;
+  height: 21.5% !important;
+}
+
+.dial-grid > .dial-control:nth-child(3) {
+  left: 51.5% !important;
+  top: 18.2% !important;
+  width: 13.4% !important;
+  height: 21.5% !important;
+}
+
+.output-jack-area {
+  left: 76.8% !important;
+  top: 21.5% !important;
+  width: 11% !important;
+  height: 18% !important;
+}
+
+.output-level {
+  left: 73.6% !important;
+  top: 43.8% !important;
+  width: 18% !important;
+  height: 25% !important;
+}
+
+.shape-area {
+  left: 6.2% !important;
+  top: 47.5% !important;
+  width: 33.2% !important;
+  height: 18.5% !important;
+}
+
+.shape-options {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+}
+
+.wave-option {
+  position: absolute !important;
+  top: 0 !important;
+  width: 33% !important;
+  height: 100% !important;
+  opacity: 0.01 !important;
+  cursor: pointer !important;
+}
+
+.wave-option:nth-child(1) { left: 0 !important; }
+.wave-option:nth-child(2) { left: 33% !important; }
+.wave-option:nth-child(3) { left: 66% !important; }
+
+.wave-option input {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+}
+
+.sync-area {
+  left: 49.2% !important;
+  top: 50.6% !important;
+  width: 17% !important;
+  height: 15% !important;
+}
+
+.sync-toggle {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+}
+
+.sync-toggle input {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+}
+
 .power-area {
-  position: static;
-  width: auto;
-  transform: none;
-}
-
-.output-level .dial-face {
-  width: clamp(108px, 8.4vw, 136px);
-  height: clamp(108px, 8.4vw, 136px);
-}
-
-.power-area {
-  align-self: end;
-  justify-self: end;
+  left: 72.4% !important;
+  top: 75.2% !important;
+  width: 21% !important;
+  height: 14% !important;
 }
 
 .power-controls {
-  gap: 10px;
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
 }
 
-.brand-area {
-  bottom: -105px;
-  grid-template-columns: 0.9fr 0.8fr 0.45fr 0.7fr;
+.power-controls span {
+  display: none !important;
 }
 
 .status-line {
-  right: 26px;
-  bottom: 4px;
+  position: absolute !important;
+  right: 3% !important;
+  bottom: 2% !important;
+  color: #111 !important;
+  opacity: 0.92 !important;
 }
 
-@media (max-width: 980px) {
-  .lower-controls {
-    width: auto;
+.scope-panel,
+.connection-note {
+  width: 100% !important;
+}
+
+@media (max-width: 700px) {
+  .status-line {
+    font-size: 0.55rem !important;
   }
 }
