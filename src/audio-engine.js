@@ -60,10 +60,10 @@
     update({ frequency, level, scream, gate, syncBite }) {
       if (!this.context || !this.oscillator) return;
       const now = this.context.currentTime;
-      const safeFrequency = Math.max(20, Math.min(4000, frequency));
+      const safeFrequency = Math.max(50, Math.min(2200, frequency));
       const safeLevel = Math.max(0, Math.min(0.8, level));
       const gateLevel = gate ? 1 : 0;
-      const syncBoost = syncBite ? 1.15 : 1;
+      const syncBoost = syncBite ? 1.08 : 1;
 
       this.oscillator.frequency.setTargetAtTime(safeFrequency * syncBoost, now, 0.008);
       this.output.gain.setTargetAtTime(this.running ? safeLevel * gateLevel : 0, now, 0.018);
