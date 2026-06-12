@@ -37,7 +37,7 @@
             <span class="dial-face">
               <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
               <span class="knob" data-for="pitch" aria-hidden="true"></span>
-              <input id="pitch" type="range" min="60" max="1400" value="220" step="1" />
+              <input id="pitch" type="range" min="0" max="10" value="5.45" step="0.01" />
             </span>
             <output id="pitchOut">220 Hz</output>
           </label>
@@ -72,31 +72,16 @@
           <fieldset class="shape-area">
             <legend class="control-heading">Modulation Shape</legend>
             <div class="shape-options">
-              <label class="wave-option">
-                <span class="wave-mark wave-smooth" aria-hidden="true"></span>
-                <input type="radio" name="shape" value="smooth" />
-              </label>
-              <label class="wave-option">
-                <span class="wave-mark wave-spike" aria-hidden="true"></span>
-                <input type="radio" name="shape" value="spike" />
-              </label>
-              <label class="wave-option">
-                <span class="wave-mark wave-square" aria-hidden="true"></span>
-                <input type="radio" name="shape" value="square" checked />
-              </label>
+              <label class="wave-option"><span class="wave-mark wave-smooth" aria-hidden="true"></span><input type="radio" name="shape" value="smooth" /></label>
+              <label class="wave-option"><span class="wave-mark wave-spike" aria-hidden="true"></span><input type="radio" name="shape" value="spike" /></label>
+              <label class="wave-option"><span class="wave-mark wave-square" aria-hidden="true"></span><input type="radio" name="shape" value="square" checked /></label>
             </div>
           </fieldset>
 
           <fieldset class="sync-area">
             <legend class="control-heading">Sync Effect</legend>
-            <label class="sync-toggle">
-              <input id="sync" type="checkbox" />
-              <span>Off</span>
-            </label>
-            <label class="sync-toggle service-controls">
-              <input id="drone" type="checkbox" checked />
-              <span>Drone</span>
-            </label>
+            <label class="sync-toggle"><input id="sync" type="checkbox" /><span>Off</span></label>
+            <label class="sync-toggle service-controls"><input id="drone" type="checkbox" checked /><span>Drone</span></label>
           </fieldset>
 
           <label class="dial-control output-level" data-range-control="level">
@@ -111,20 +96,13 @@
 
           <div class="power-area">
             <span class="control-heading">Power</span>
-            <div class="power-controls">
-              <span>Off</span>
-              <button class="power-button" id="startButton" type="button">Start audio</button>
-              <span>On</span>
-            </div>
+            <div class="power-controls"><span>Off</span><button class="power-button" id="startButton" type="button">Start audio</button><span>On</span></div>
             <button class="secondary-button service-controls" id="panicButton" type="button">Panic / mute</button>
           </div>
         </div>
 
         <div class="brand-area">
-          <div class="mfos-logo" aria-hidden="true">
-            <strong>MFOS</strong>
-            <span class="mfos-line"></span>
-          </div>
+          <div class="mfos-logo" aria-hidden="true"><strong>MFOS</strong><span class="mfos-line"></span></div>
           <h1 id="synth-title" class="alien-title">Alien<br />Screamer</h1>
           <div class="alien-head" aria-hidden="true"><span class="alien-mouth"></span></div>
         </div>
@@ -148,11 +126,7 @@
 
     <section class="scope-panel" aria-label="Signal monitor">
       <canvas id="scope" width="900" height="120"></canvas>
-      <div class="readouts">
-        <span id="freqReadout">VCO 220 Hz</span>
-        <span id="lfoReadout">LFO +0.00</span>
-        <span id="gateReadout">GATE OPEN</span>
-      </div>
+      <div class="readouts"><span id="freqReadout">VCO 220 Hz</span><span id="lfoReadout">LFO +0.00</span><span id="gateReadout">GATE OPEN</span></div>
     </section>
 
     <aside class="connection-note">
