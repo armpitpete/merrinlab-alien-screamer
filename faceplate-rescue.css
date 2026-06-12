@@ -11,6 +11,7 @@
   border: 0 !important;
   background: url("assets/alien-screamer-faceplate.png?v=clean1") center / contain no-repeat !important;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34) !important;
+  touch-action: none !important;
 }
 
 .panel-url,
@@ -26,6 +27,32 @@
 .output,
 .dial-control output {
   display: none !important;
+}
+
+.panel-led {
+  position: absolute !important;
+  z-index: 6 !important;
+  width: 2.2% !important;
+  aspect-ratio: 1 !important;
+  border-radius: 999px !important;
+  background: rgba(255, 70, 70, 0.92) !important;
+  box-shadow: 0 0 10px rgba(255, 70, 70, 0.72) !important;
+  pointer-events: none !important;
+}
+
+.panel-led.on {
+  background: rgba(45, 215, 90, 0.96) !important;
+  box-shadow: 0 0 12px rgba(45, 215, 90, 0.82) !important;
+}
+
+.lfo-led {
+  left: 70.4% !important;
+  top: 14.8% !important;
+}
+
+.power-led {
+  left: 80.5% !important;
+  top: 79.4% !important;
 }
 
 .control-box {
@@ -61,6 +88,7 @@
   border: 0 !important;
   background: transparent !important;
   transform: none !important;
+  z-index: 5 !important;
 }
 
 .dial-control .dial-face {
@@ -82,45 +110,45 @@
 }
 
 .dial-grid > .dial-control:nth-child(1) {
-  left: 12.8% !important;
-  top: 18.2% !important;
-  width: 13.4% !important;
-  height: 21.5% !important;
+  left: 12.0% !important;
+  top: 16.5% !important;
+  width: 17.5% !important;
+  height: 25.5% !important;
 }
 
 .dial-grid > .dial-control:nth-child(2) {
-  left: 32.3% !important;
-  top: 18.2% !important;
-  width: 13.4% !important;
-  height: 21.5% !important;
+  left: 30.5% !important;
+  top: 16.5% !important;
+  width: 17.5% !important;
+  height: 25.5% !important;
 }
 
 .dial-grid > .dial-control:nth-child(3) {
-  left: 51.5% !important;
-  top: 18.2% !important;
-  width: 13.4% !important;
-  height: 21.5% !important;
+  left: 49.4% !important;
+  top: 16.5% !important;
+  width: 17.5% !important;
+  height: 25.5% !important;
 }
 
 .output-jack-area {
-  left: 76.8% !important;
-  top: 21.5% !important;
-  width: 11% !important;
-  height: 18% !important;
+  left: 75.4% !important;
+  top: 21.0% !important;
+  width: 13.0% !important;
+  height: 20.0% !important;
 }
 
 .output-level {
-  left: 73.6% !important;
-  top: 43.8% !important;
-  width: 18% !important;
-  height: 25% !important;
+  left: 72.2% !important;
+  top: 45.4% !important;
+  width: 20.5% !important;
+  height: 27.5% !important;
 }
 
 .shape-area {
-  left: 6.2% !important;
-  top: 47.5% !important;
-  width: 33.2% !important;
-  height: 18.5% !important;
+  left: 10.0% !important;
+  top: 51.5% !important;
+  width: 32.0% !important;
+  height: 14.2% !important;
 }
 
 .shape-options {
@@ -132,15 +160,15 @@
 .wave-option {
   position: absolute !important;
   top: 0 !important;
-  width: 33% !important;
+  width: 33.33% !important;
   height: 100% !important;
   opacity: 0.01 !important;
   cursor: pointer !important;
 }
 
 .wave-option:nth-child(1) { left: 0 !important; }
-.wave-option:nth-child(2) { left: 33% !important; }
-.wave-option:nth-child(3) { left: 66% !important; }
+.wave-option:nth-child(2) { left: 33.33% !important; }
+.wave-option:nth-child(3) { left: 66.66% !important; }
 
 .wave-option input {
   position: absolute !important;
@@ -152,10 +180,10 @@
 }
 
 .sync-area {
-  left: 49.2% !important;
-  top: 50.6% !important;
-  width: 17% !important;
-  height: 15% !important;
+  left: 51.5% !important;
+  top: 53.0% !important;
+  width: 17.5% !important;
+  height: 15.0% !important;
 }
 
 .sync-toggle {
@@ -174,10 +202,10 @@
 }
 
 .power-area {
-  left: 72.4% !important;
-  top: 75.2% !important;
-  width: 21% !important;
-  height: 14% !important;
+  left: 75.0% !important;
+  top: 75.4% !important;
+  width: 17.0% !important;
+  height: 14.5% !important;
 }
 
 .power-controls {
