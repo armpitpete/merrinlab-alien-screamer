@@ -42,6 +42,11 @@ const external = {
   lastMessage: null,
 };
 
+const syncReset = {
+  lastSquare: null,
+  lastResetAt: 0,
+};
+
 function currentShape() {
   return document.querySelector('input[name="shape"]:checked')?.value || "square";
 }
@@ -210,6 +215,25 @@ function drawScope() {
   ctx.stroke();
 }
 
+function maybeResetRampFromLfoEdge(state, phase, frequency) {
+  const squareState = phase < 0.5 ? 1 : -1;
+
+  if (!state.sync) {
+    syncReset.lastSquare = squareState;
+    return;
+  }
+
+  if (syncReset.lastSquare !== null && squareState !== syncReset.lastSquare) {
+    const now = performance.now();
+    if (now - syncReset.lastResetAt > 4) {
+      engine.resetRamp(frequency);
+      syncReset.lastResetAt = now;
+    }
+  }
+
+  syncReset.lastSquare = squareState;
+}
+
 function tick() {
   const state = getState();
   const time = performance.now() / 1000;
@@ -218,11 +242,11 @@ function tick() {
   const base = state.pitch * centsToRatio(state.fine);
   const modulation = lfo * state.depth;
   const pitchCV = external.pitchCV * 120;
-  const syncBite = state.sync && (state.shape === "spike" || Math.abs(lfo) > 0.95);
   const gate = state.drone ? 1 : external.gate;
   const frequency = Math.max(1, base + modulation + pitchCV);
 
-  engine.update({ frequency, level: state.level, scream: state.scream, gate, syncBite });
+  maybeResetRampFromLfoEdge(state, phase, frequency);
+  engine.update({ frequency, level: state.level, scream: state.scream, gate });
   updateReadouts(state, frequency, lfo);
   drawScope();
 
