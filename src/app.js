@@ -2,8 +2,8 @@ const moduleId = "merrinlab-alien-screamer";
 const engine = new window.AlienScreamerEngine();
 const bus = new window.MerrinLabPatchBus(moduleId);
 
-const VCO_MIN_HZ = 1;
-const VCO_MAX_HZ = 20000;
+const VCO_MIN_HZ = 100;
+const VCO_MAX_HZ = 22000;
 
 const els = {
   pitch: document.getElementById("pitch"),
@@ -247,7 +247,7 @@ function tick() {
   const syncResetSent = sendSyncResetOnSquareEdge(state, phase);
   const syncBite = !engine.usingResettableRamp && syncResetSent;
   const gate = state.drone ? 1 : external.gate;
-  const frequency = Math.max(1, base + modulation + pitchCV);
+  const frequency = Math.max(100, base + modulation + pitchCV);
 
   engine.update({ frequency, level: state.level, scream: state.scream, gate, syncBite });
   updateReadouts(state, frequency, lfo);
