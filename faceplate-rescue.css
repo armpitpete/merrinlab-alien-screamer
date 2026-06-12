@@ -9,7 +9,7 @@
   height: auto !important;
   padding: 0 !important;
   border: 0 !important;
-  background: url("assets/alien-screamer-faceplate.png?v=clean1") center / contain no-repeat !important;
+  background: url("assets/alien-screamer-faceplate.png?v=filled-knob") center / contain no-repeat !important;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34) !important;
   touch-action: none !important;
 }
@@ -53,6 +53,58 @@
 .power-led {
   left: 80.5% !important;
   top: 79.4% !important;
+}
+
+.knob-indicator {
+  position: absolute !important;
+  z-index: 7 !important;
+  width: 5.2% !important;
+  height: 0.75% !important;
+  background: #fff !important;
+  border-radius: 999px !important;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.8) !important;
+  transform-origin: 7% 50% !important;
+  transform: rotate(var(--turn, -135deg)) !important;
+  pointer-events: none !important;
+}
+
+.pitch-indicator {
+  left: 17.4% !important;
+  top: 30.0% !important;
+}
+
+.depth-indicator {
+  left: 35.9% !important;
+  top: 30.0% !important;
+}
+
+.rate-indicator {
+  left: 54.8% !important;
+  top: 30.0% !important;
+}
+
+.level-indicator {
+  left: 80.0% !important;
+  top: 58.8% !important;
+}
+
+.sync-indicator {
+  position: absolute !important;
+  z-index: 6 !important;
+  left: 60.0% !important;
+  top: 61.7% !important;
+  width: 3.2% !important;
+  aspect-ratio: 1 !important;
+  border-radius: 999px !important;
+  border: 2px solid rgba(0, 0, 0, 0.88) !important;
+  background: rgba(255, 70, 70, 0.88) !important;
+  box-shadow: 0 0 8px rgba(255, 70, 70, 0.55) !important;
+  pointer-events: none !important;
+}
+
+.sync-indicator.on {
+  background: rgba(45, 215, 90, 0.96) !important;
+  box-shadow: 0 0 10px rgba(45, 215, 90, 0.75) !important;
 }
 
 .control-box {
@@ -106,7 +158,28 @@
   width: 100% !important;
   height: 100% !important;
   opacity: 0 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
   cursor: pointer !important;
+}
+
+.dial-control input[type="range"]::-webkit-slider-thumb,
+.dial-control input[type="range"]::-webkit-slider-runnable-track,
+.dial-control input[type="range"]::-moz-range-thumb,
+.dial-control input[type="range"]::-moz-range-track {
+  opacity: 0 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.wave-option input,
+.sync-toggle input,
+.service-controls input {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
 }
 
 .dial-grid > .dial-control:nth-child(1) {
@@ -175,7 +248,6 @@
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  opacity: 0 !important;
   cursor: pointer !important;
 }
 
@@ -197,7 +269,6 @@
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  opacity: 0 !important;
   cursor: pointer !important;
 }
 
