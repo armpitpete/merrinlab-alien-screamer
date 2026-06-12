@@ -15,6 +15,8 @@ const els = {
   panicButton: document.getElementById("panicButton"),
   busEnabled: document.getElementById("busEnabled"),
   powerLamp: document.getElementById("powerLamp"),
+  panelPowerLed: document.getElementById("panelPowerLed"),
+  lfoLed: document.getElementById("lfoLed"),
   engineStatus: document.getElementById("engineStatus"),
   busStatus: document.getElementById("busStatus"),
   pitchOut: document.getElementById("pitchOut"),
@@ -64,6 +66,64 @@ function lfoValue(time, rate, shape) {
   if (shape === "smooth") return Math.sin(phase * Math.PI * 2);
   if (shape === "spike") return phase < 0.08 ? 1 - phase / 0.08 : -0.15;
   return phase < 0.5 ? 1 : -1;
+}
+
+function sendParameterChange() {
+  bus.send("parameter-change", getState());
+}
+
+function setInputValue(input, value) {
+  const min = Number(input.min);
+  const max = Number(input.max);
+  const step = Number(input.step || 1);
+  const clamped = Math.min(max, Math.max(min, value));
+  const stepped = step > 0 ? Math.round(clamped / step) * step : clamped;
+  input.value = String(Number(stepped.toFixed(4)));
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
+function valueFromPointer(event, zone, input) {
+  const rect = zone.getBoundingClientRect();
+  const x = Math.min(rect.width, Math.max(0, event.clientX - rect.left));
+  const normal = x / rect.width;
+  const min = Number(input.min);
+  const max = Number(input.max);
+  return min + normal * (max - min);
+}
+
+function installRangeHotZones() {
+  document.querySelectorAll("[data-range-control]").forEach((zone) => {
+    const input = document.getElementById(zone.dataset.rangeControl);
+    if (!input) return;
+
+    const updateFromPointer = (event) => {
+      event.preventDefault();
+      setInputValue(input, valueFromPointer(event, zone, input));
+    };
+
+    zone.addEventListener("pointerdown", (event) => {
+      updateFromPointer(event);
+      zone.setPointerCapture?.(event.pointerId);
+    });
+
+    zone.addEventListener("pointermove", (event) => {
+      if (event.buttons !== 1 && event.pressure === 0) return;
+      updateFromPointer(event);
+    });
+  });
+}
+
+function installFaceplateToggles() {
+  const syncArea = document.querySelector(".sync-area");
+  syncArea?.addEventListener("click", (event) => {
+    event.preventDefault();
+    els.sync.checked = !els.sync.checked;
+    els.sync.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+
+  document.querySelectorAll('.wave-option input[name="shape"]').forEach((input) => {
+    input.addEventListener("change", sendParameterChange);
+  });
 }
 
 function updateReadouts(state, frequency, lfo) {
@@ -123,6 +183,7 @@ function drawScope() {
 function tick() {
   const state = getState();
   const time = performance.now() / 1000;
+  const phase = (time * state.rate) % 1;
   const lfo = lfoValue(time, state.rate, state.shape);
   const base = state.pitch * centsToRatio(state.fine);
   const modulation = lfo * state.depth;
@@ -134,6 +195,8 @@ function tick() {
   engine.update({ frequency, level: state.level, scream: state.scream, gate, syncBite });
   updateReadouts(state, frequency, lfo);
   drawScope();
+
+  els.lfoLed?.classList.toggle("on", engine.running && phase < 0.5);
 
   bus.send("module-state", {
     outputs: {
@@ -166,6 +229,7 @@ bus.on((message) => {
 
 function setEngineStatus(on) {
   els.powerLamp.classList.toggle("on", on);
+  els.panelPowerLed?.classList.toggle("on", on);
   els.engineStatus.textContent = on ? "ENGINE ON" : "ENGINE OFF";
   els.startButton.textContent = on ? "Stop audio" : "Start audio";
 }
@@ -204,4 +268,7 @@ for (const input of document.querySelectorAll("input")) {
   });
 }
 
+installRangeHotZones();
+installFaceplateToggles();
+setEngineStatus(false);
 tick();
