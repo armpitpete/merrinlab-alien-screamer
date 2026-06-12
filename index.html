@@ -22,10 +22,12 @@
       <span class="screw s5" aria-hidden="true"></span>
       <span class="screw s6" aria-hidden="true"></span>
       <span class="screw s7" aria-hidden="true"></span>
+      <span class="panel-led lfo-led" id="lfoLed" aria-hidden="true"></span>
+      <span class="panel-led power-led" id="panelPowerLed" aria-hidden="true"></span>
 
       <section class="control-box" aria-label="Alien Screamer controls">
         <div class="dial-grid">
-          <label class="dial-control">
+          <label class="dial-control" data-range-control="pitch">
             <span class="dial-title">VCO Frequency</span>
             <span class="dial-face">
               <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
@@ -35,7 +37,7 @@
             <output id="pitchOut">220 Hz</output>
           </label>
 
-          <label class="dial-control">
+          <label class="dial-control" data-range-control="depth">
             <span class="dial-title">LFO Modulation</span>
             <span class="dial-face">
               <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
@@ -45,7 +47,7 @@
             <output id="depthOut">240 Hz</output>
           </label>
 
-          <label class="dial-control">
+          <label class="dial-control" data-range-control="rate">
             <span class="dial-title">LFO Frequency</span>
             <span class="dial-face">
               <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
@@ -92,7 +94,7 @@
             </label>
           </fieldset>
 
-          <label class="dial-control output-level">
+          <label class="dial-control output-level" data-range-control="level">
             <span class="dial-title">Output Level</span>
             <span class="dial-face">
               <span class="scale-number n0">0</span><span class="scale-number n1">1</span><span class="scale-number n2">2</span><span class="scale-number n3">3</span><span class="scale-number n4">4</span><span class="scale-number n6">6</span><span class="scale-number n7">7</span><span class="scale-number n8">8</span><span class="scale-number n9">9</span><span class="scale-number n10">10</span>
