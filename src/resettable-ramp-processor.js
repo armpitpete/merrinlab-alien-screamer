@@ -58,7 +58,7 @@ class ResettableRampProcessor extends AudioWorkletProcessor {
       if (this.resetRequested || (syncEnabled && lfoEdge)) {
         this.phase = 0;
         this.resetRequested = false;
-        this.resetAccentSamples = Math.max(2, Math.floor(sampleRate * 0.00045));
+        this.resetAccentSamples = Math.max(8, Math.floor(sampleRate * 0.0015));
       }
 
       let sample = this.phase * 2 - 1;
