@@ -1,6 +1,6 @@
 /* Alien Screamer browser audio engine.
    This is not a circuit simulation. It is a playable browser instrument that keeps
-   the main Alien Screamer behaviour: ramp voice, LFO modulation, sync reset, lo-fi gain.
+   the main Alien Screamer behaviour: ramp voice, LFO modulation, sync bite, lo-fi gain.
 */
 (function () {
   class AlienScreamerEngine {
@@ -15,6 +15,7 @@
       this.lastGate = 1;
       this.usingResettableRamp = false;
       this.workletReady = false;
+      this.syncBiteAmount = 0;
     }
 
     async start() {
@@ -45,7 +46,7 @@
     async loadWorklet() {
       if (!this.context.audioWorklet) return;
       try {
-        await this.context.audioWorklet.addModule("src/resettable-ramp-processor.js?v=vco-22k");
+        await this.context.audioWorklet.addModule("src/resettable-ramp-processor.js?v=sync-bite-1");
         this.workletReady = true;
       } catch (error) {
         console.warn("Resettable ramp AudioWorklet failed to load; falling back to OscillatorNode.", error);
@@ -74,8 +75,8 @@
     }
 
     resetRamp() {
-      // The AudioWorklet handles sync resets internally from its own audio-rate LFO edge detector.
-      // Do not also send frame-loop reset messages, or the reset can sound doubled.
+      // Sync Effect is implemented as Sync Bite in this browser version.
+      // The ramp-reset experiment was unreliable, so this method intentionally does nothing.
       return;
     }
 
@@ -89,28 +90,39 @@
       this.stop();
     }
 
-    update({ frequency, level, scream, gate, syncBite, sync, lfoRate }) {
+    update({ frequency, level, scream, gate, syncBite }) {
       if (!this.context || !this.source) return;
       const now = this.context.currentTime;
       const safeFrequency = Math.max(100, Math.min(22000, frequency));
-      const syncControl = typeof sync === "boolean" ? sync : Boolean(document.getElementById("sync")?.checked);
-      const lfoRateControl = Number.isFinite(lfoRate) ? lfoRate : Number(document.getElementById("rate")?.value || 3.2);
-      const safeLfoRate = Math.max(0.01, Math.min(200, lfoRateControl || 0.01));
       const safeLevel = Math.max(0, Math.min(0.8, level));
       const gateLevel = gate ? 1 : 0;
 
-      if (this.usingResettableRamp) {
-        this.source.parameters.get("frequency").setTargetAtTime(safeFrequency, now, 0.008);
-        this.source.parameters.get("lfoRate").setTargetAtTime(safeLfoRate, now, 0.008);
-        this.source.parameters.get("syncEnabled").setTargetAtTime(syncControl ? 1 : 0, now, 0.002);
+      if (syncBite) {
+        this.syncBiteAmount = 1;
       } else {
-        const syncBoost = syncBite || syncControl ? 1.08 : 1;
-        this.source.frequency.setTargetAtTime(Math.min(22000, safeFrequency * syncBoost), now, 0.008);
+        this.syncBiteAmount *= 0.68;
+        if (this.syncBiteAmount < 0.015) this.syncBiteAmount = 0;
+      }
+
+      const bite = this.syncBiteAmount;
+      const bittenFrequency = Math.min(22000, safeFrequency * (1 + bite * 0.18));
+      const bittenScream = Math.max(0, Math.min(1, scream + bite * 0.42));
+      const normalFilter = 1600 + (1 - scream) * 5000;
+      const bittenFilter = Math.min(11500, normalFilter + bite * 5200);
+
+      if (this.usingResettableRamp) {
+        this.source.parameters.get("frequency").setTargetAtTime(bittenFrequency, now, 0.004);
+        if (this.source.parameters.has("syncEnabled")) {
+          this.source.parameters.get("syncEnabled").setValueAtTime(0, now);
+        }
+      } else {
+        this.source.frequency.setTargetAtTime(bittenFrequency, now, 0.004);
       }
 
       this.output.gain.setTargetAtTime(this.running ? safeLevel * gateLevel : 0, now, 0.018);
-      this.drive.curve = makeDriveCurve(scream);
-      this.filter.frequency.setTargetAtTime(1600 + (1 - scream) * 5000, now, 0.03);
+      this.drive.curve = makeDriveCurve(bittenScream);
+      this.filter.frequency.setTargetAtTime(bittenFilter, now, 0.012);
+      this.filter.Q.setTargetAtTime(0.6 + bite * 3.2, now, 0.012);
       this.lastGate = gateLevel;
     }
 
