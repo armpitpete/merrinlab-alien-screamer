@@ -74,8 +74,9 @@
     }
 
     resetRamp() {
-      if (!this.running || !this.usingResettableRamp || !this.source?.port) return;
-      this.source.port.postMessage({ type: "sync-reset" });
+      // The AudioWorklet handles sync resets internally from its own audio-rate LFO edge detector.
+      // Do not also send frame-loop reset messages, or the reset can sound doubled.
+      return;
     }
 
     stop() {
