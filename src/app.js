@@ -17,6 +17,7 @@ const els = {
   powerLamp: document.getElementById("powerLamp"),
   panelPowerLed: document.getElementById("panelPowerLed"),
   lfoLed: document.getElementById("lfoLed"),
+  syncIndicator: document.getElementById("syncIndicator"),
   engineStatus: document.getElementById("engineStatus"),
   busStatus: document.getElementById("busStatus"),
   pitchOut: document.getElementById("pitchOut"),
@@ -136,16 +137,18 @@ function updateReadouts(state, frequency, lfo) {
   els.freqReadout.textContent = `VCO ${Math.round(frequency)} Hz`;
   els.lfoReadout.textContent = `LFO ${lfo >= 0 ? "+" : ""}${lfo.toFixed(2)}`;
   els.gateReadout.textContent = external.gate ? "GATE OPEN" : "GATE CLOSED";
+  els.syncIndicator?.classList.toggle("on", state.sync);
 
-  document.querySelectorAll(".knob[data-for]").forEach((knob) => {
-    const input = document.getElementById(knob.dataset.for);
+  document.querySelectorAll(".knob[data-for], .knob-indicator[data-indicator-for]").forEach((indicator) => {
+    const id = indicator.dataset.for || indicator.dataset.indicatorFor;
+    const input = document.getElementById(id);
     if (!input) return;
     const min = Number(input.min);
     const max = Number(input.max);
     const value = Number(input.value);
     const normal = (value - min) / (max - min);
     const deg = -135 + normal * 270;
-    knob.style.setProperty("--turn", `${deg}deg`);
+    indicator.style.setProperty("--turn", `${deg}deg`);
   });
 }
 
