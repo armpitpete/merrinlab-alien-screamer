@@ -42,6 +42,11 @@ const external = {
   lastMessage: null,
 };
 
+const syncEdge = {
+  lastSquare: null,
+  lastPulseAt: 0,
+};
+
 function currentShape() {
   return document.querySelector('input[name="shape"]:checked')?.value || "square";
 }
@@ -210,14 +215,37 @@ function drawScope() {
   ctx.stroke();
 }
 
+function sendSyncResetOnSquareEdge(state, phase) {
+  const squareState = phase < 0.5 ? 1 : -1;
+
+  if (!state.sync) {
+    syncEdge.lastSquare = squareState;
+    return false;
+  }
+
+  const edgeDetected = syncEdge.lastSquare !== null && squareState !== syncEdge.lastSquare;
+  syncEdge.lastSquare = squareState;
+
+  if (!edgeDetected) return false;
+
+  const now = performance.now();
+  if (now - syncEdge.lastPulseAt < 3) return false;
+
+  engine.resetRamp();
+  syncEdge.lastPulseAt = now;
+  return true;
+}
+
 function tick() {
   const state = getState();
   const time = performance.now() / 1000;
+  const phase = (time * state.rate) % 1;
   const lfo = lfoValue(time, state.rate, state.shape);
   const base = state.pitch * centsToRatio(state.fine);
   const modulation = lfo * state.depth;
   const pitchCV = external.pitchCV * 120;
-  const syncBite = state.sync && (state.shape === "spike" || Math.abs(lfo) > 0.95);
+  const syncResetSent = sendSyncResetOnSquareEdge(state, phase);
+  const syncBite = !engine.usingResettableRamp && syncResetSent;
   const gate = state.drone ? 1 : external.gate;
   const frequency = Math.max(1, base + modulation + pitchCV);
 
@@ -225,7 +253,6 @@ function tick() {
   updateReadouts(state, frequency, lfo);
   drawScope();
 
-  const phase = (time * state.rate) % 1;
   els.lfoLed?.classList.toggle("on", engine.running && phase < 0.5);
 
   bus.send("module-state", {
