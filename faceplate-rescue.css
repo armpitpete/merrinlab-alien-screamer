@@ -58,42 +58,42 @@
 .knob-indicator {
   position: absolute !important;
   z-index: 7 !important;
-  width: 5.2% !important;
+  width: 4.7% !important;
   height: 0.75% !important;
   background: #fff !important;
   border-radius: 999px !important;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.8) !important;
-  transform-origin: 7% 50% !important;
-  transform: rotate(var(--turn, -135deg)) !important;
+  transform-origin: 0% 50% !important;
+  transform: translateY(-50%) rotate(var(--turn, -135deg)) !important;
   pointer-events: none !important;
 }
 
 .pitch-indicator {
-  left: 17.4% !important;
-  top: 30.0% !important;
+  left: 17.9% !important;
+  top: 30.1% !important;
 }
 
 .depth-indicator {
-  left: 35.9% !important;
-  top: 30.0% !important;
+  left: 37.5% !important;
+  top: 30.1% !important;
 }
 
 .rate-indicator {
-  left: 54.8% !important;
-  top: 30.0% !important;
+  left: 56.9% !important;
+  top: 30.1% !important;
 }
 
 .level-indicator {
-  left: 80.0% !important;
-  top: 58.8% !important;
+  left: 81.4% !important;
+  top: 60.0% !important;
 }
 
 .sync-indicator {
   position: absolute !important;
   z-index: 6 !important;
-  left: 60.0% !important;
-  top: 61.7% !important;
-  width: 3.2% !important;
+  left: 58.4% !important;
+  top: 51.0% !important;
+  width: 2.8% !important;
   aspect-ratio: 1 !important;
   border-radius: 999px !important;
   border: 2px solid rgba(0, 0, 0, 0.88) !important;
