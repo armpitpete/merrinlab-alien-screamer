@@ -2,6 +2,9 @@ const moduleId = "merrinlab-alien-screamer";
 const engine = new window.AlienScreamerEngine();
 const bus = new window.MerrinLabPatchBus(moduleId);
 
+const VCO_MIN_HZ = 1;
+const VCO_MAX_HZ = 20000;
+
 const els = {
   pitch: document.getElementById("pitch"),
   fine: document.getElementById("fine"),
@@ -43,9 +46,15 @@ function currentShape() {
   return document.querySelector('input[name="shape"]:checked')?.value || "square";
 }
 
+function pitchKnobToFrequency(knobValue) {
+  const normal = Math.min(1, Math.max(0, knobValue / 10));
+  return VCO_MIN_HZ * Math.pow(VCO_MAX_HZ / VCO_MIN_HZ, normal);
+}
+
 function getState() {
   return {
-    pitch: Number(els.pitch.value),
+    pitch: pitchKnobToFrequency(Number(els.pitch.value)),
+    pitchKnob: Number(els.pitch.value),
     fine: Number(els.fine.value),
     rate: Number(els.rate.value),
     depth: Number(els.depth.value),
@@ -73,14 +82,8 @@ function lfoValue(time, rate, shape) {
     // with no DC offset between the edge events.
     const width = 0.06;
 
-    if (phase < width) {
-      return 1 - phase / width;
-    }
-
-    if (phase >= 0.5 && phase < 0.5 + width) {
-      return -1 + (phase - 0.5) / width;
-    }
-
+    if (phase < width) return 1 - phase / width;
+    if (phase >= 0.5 && phase < 0.5 + width) return -1 + (phase - 0.5) / width;
     return 0;
   }
 
@@ -145,14 +148,19 @@ function installFaceplateToggles() {
   });
 }
 
+function formatHz(value) {
+  if (value < 100) return `${value.toFixed(1)} Hz`;
+  return `${Math.round(value)} Hz`;
+}
+
 function updateReadouts(state, frequency, lfo) {
-  els.pitchOut.textContent = `${Math.round(state.pitch)} Hz`;
+  els.pitchOut.textContent = formatHz(state.pitch);
   els.fineOut.textContent = `${state.fine} ct`;
   els.rateOut.textContent = `${state.rate.toFixed(1)} Hz`;
   els.depthOut.textContent = `${Math.round(state.depth)} Hz`;
   els.screamOut.textContent = `${Math.round(state.scream * 100)}%`;
   els.levelOut.textContent = `${Math.round(state.level * 100)}%`;
-  els.freqReadout.textContent = `VCO ${Math.round(frequency)} Hz`;
+  els.freqReadout.textContent = `VCO ${formatHz(frequency)}`;
   els.lfoReadout.textContent = `LFO ${lfo >= 0 ? "+" : ""}${lfo.toFixed(2)}`;
   els.gateReadout.textContent = external.gate ? "GATE OPEN" : "GATE CLOSED";
   els.syncIndicator?.classList.toggle("on", state.sync);
@@ -165,8 +173,8 @@ function updateReadouts(state, frequency, lfo) {
     const max = Number(input.max);
     const value = Number(input.value);
     const normal = (value - min) / (max - min);
-    // MFOS-style dial: 0 at lower-left, 5 at top, 10 at lower-right.
-    const deg = 135 + normal * 270;
+    // MFOS-style dial: 0 near lower-left, 5 near top, 10 near lower-right.
+    const deg = 120 + normal * 300;
     indicator.style.setProperty("--turn", `${deg}deg`);
   });
 }
@@ -212,7 +220,7 @@ function tick() {
   const pitchCV = external.pitchCV * 120;
   const syncBite = state.sync && (state.shape === "spike" || Math.abs(lfo) > 0.95);
   const gate = state.drone ? 1 : external.gate;
-  const frequency = Math.max(20, base + modulation + pitchCV);
+  const frequency = Math.max(1, base + modulation + pitchCV);
 
   engine.update({ frequency, level: state.level, scream: state.scream, gate, syncBite });
   updateReadouts(state, frequency, lfo);
@@ -221,15 +229,8 @@ function tick() {
   els.lfoLed?.classList.toggle("on", engine.running && phase < 0.5);
 
   bus.send("module-state", {
-    outputs: {
-      lfo,
-      audioLevel: state.level,
-      frequency,
-    },
-    inputs: {
-      pitchCV: external.pitchCV,
-      gate: external.gate,
-    },
+    outputs: { lfo, audioLevel: state.level, frequency },
+    inputs: { pitchCV: external.pitchCV, gate: external.gate },
   });
 
   requestAnimationFrame(tick);
@@ -285,9 +286,7 @@ document.querySelectorAll(".jack").forEach((jack) => {
 });
 
 for (const input of document.querySelectorAll("input")) {
-  input.addEventListener("input", () => {
-    bus.send("parameter-change", getState());
-  });
+  input.addEventListener("input", () => bus.send("parameter-change", getState()));
 }
 
 installRangeHotZones();
