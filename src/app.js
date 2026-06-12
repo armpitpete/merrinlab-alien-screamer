@@ -165,7 +165,8 @@ function updateReadouts(state, frequency, lfo) {
     const max = Number(input.max);
     const value = Number(input.value);
     const normal = (value - min) / (max - min);
-    const deg = -135 + normal * 270;
+    // MFOS-style dial: 0 at lower-left, 5 at top, 10 at lower-right.
+    const deg = 135 + normal * 270;
     indicator.style.setProperty("--turn", `${deg}deg`);
   });
 }
