@@ -4,8 +4,8 @@ class ResettableRampProcessor extends AudioWorkletProcessor {
       {
         name: "frequency",
         defaultValue: 220,
-        minValue: 0.01,
-        maxValue: 20000,
+        minValue: 100,
+        maxValue: 22000,
         automationRate: "a-rate",
       },
       {
@@ -50,7 +50,7 @@ class ResettableRampProcessor extends AudioWorkletProcessor {
       const frequency = frequencyValues.length > 1 ? frequencyValues[i] : frequencyValues[0];
       const lfoRate = lfoRateValues.length > 1 ? lfoRateValues[i] : lfoRateValues[0];
       const syncEnabled = (syncValues.length > 1 ? syncValues[i] : syncValues[0]) >= 0.5;
-      const safeFrequency = Math.max(0.01, Math.min(20000, frequency));
+      const safeFrequency = Math.max(100, Math.min(22000, frequency));
       const safeLfoRate = Math.max(0.01, Math.min(200, lfoRate));
       const lfoSquare = this.lfoPhase < 0.5 ? 1 : -1;
       const lfoEdge = lfoSquare !== this.lastLfoSquare;
