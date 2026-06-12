@@ -64,8 +64,26 @@ function centsToRatio(cents) {
 
 function lfoValue(time, rate, shape) {
   const phase = (time * rate) % 1;
+
   if (shape === "smooth") return Math.sin(phase * Math.PI * 2);
-  if (shape === "spike") return phase < 0.08 ? 1 - phase / 0.08 : -0.15;
+
+  if (shape === "spike") {
+    // Differentiated square wave modulation:
+    // positive spike on the rising edge, negative spike on the falling edge,
+    // with no DC offset between the edge events.
+    const width = 0.06;
+
+    if (phase < width) {
+      return 1 - phase / width;
+    }
+
+    if (phase >= 0.5 && phase < 0.5 + width) {
+      return -1 + (phase - 0.5) / width;
+    }
+
+    return 0;
+  }
+
   return phase < 0.5 ? 1 : -1;
 }
 
