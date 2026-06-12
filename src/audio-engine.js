@@ -1,6 +1,6 @@
 /* Alien Screamer browser audio engine.
    This is not a circuit simulation. It is a playable browser instrument that keeps
-   the main Alien Screamer behaviour: ramp voice, LFO modulation, sync bite, lo-fi gain.
+   the main Alien Screamer behaviour: ramp voice, LFO modulation, sync reset, lo-fi gain.
 */
 (function () {
   class AlienScreamerEngine {
@@ -13,6 +13,7 @@
       this.analyser = null;
       this.running = false;
       this.lastGate = 1;
+      this.currentFrequency = 220;
     }
 
     async start() {
@@ -33,18 +34,42 @@
       }
 
       if (this.context.state === "suspended") await this.context.resume();
-      if (!this.oscillator) this.createOscillator();
+      if (!this.oscillator) this.createOscillator(this.currentFrequency);
       this.running = true;
     }
 
-    createOscillator() {
-      this.oscillator = this.context.createOscillator();
-      this.oscillator.type = "sawtooth";
-      this.oscillator.frequency.value = 220;
-      this.oscillator.connect(this.drive);
-      this.drive.connect(this.filter);
-      this.filter.connect(this.output);
-      this.oscillator.start();
+    createOscillator(frequency = this.currentFrequency) {
+      const oscillator = this.context.createOscillator();
+      oscillator.type = "sawtooth";
+      oscillator.frequency.value = clampFrequency(frequency);
+      oscillator.connect(this.drive);
+      oscillator.start();
+      this.oscillator = oscillator;
+      this.currentFrequency = clampFrequency(frequency);
+    }
+
+    resetRamp(frequency = this.currentFrequency) {
+      if (!this.context || !this.drive || !this.running) return;
+      const oldOscillator = this.oscillator;
+      const now = this.context.currentTime;
+      const safeFrequency = clampFrequency(frequency);
+      const newOscillator = this.context.createOscillator();
+
+      newOscillator.type = "sawtooth";
+      newOscillator.frequency.value = safeFrequency;
+      newOscillator.connect(this.drive);
+      newOscillator.start(now);
+      this.oscillator = newOscillator;
+      this.currentFrequency = safeFrequency;
+
+      if (oldOscillator) {
+        try {
+          oldOscillator.stop(now);
+          oldOscillator.disconnect();
+        } catch (error) {
+          // Old oscillators may already be stopped/disconnected during rapid sync pulses.
+        }
+      }
     }
 
     stop() {
@@ -57,15 +82,15 @@
       this.stop();
     }
 
-    update({ frequency, level, scream, gate, syncBite }) {
+    update({ frequency, level, scream, gate }) {
       if (!this.context || !this.oscillator) return;
       const now = this.context.currentTime;
-      const safeFrequency = Math.max(1, Math.min(20000, frequency));
+      const safeFrequency = clampFrequency(frequency);
       const safeLevel = Math.max(0, Math.min(0.8, level));
       const gateLevel = gate ? 1 : 0;
-      const syncBoost = syncBite ? 1.08 : 1;
 
-      this.oscillator.frequency.setTargetAtTime(safeFrequency * syncBoost, now, 0.008);
+      this.currentFrequency = safeFrequency;
+      this.oscillator.frequency.setTargetAtTime(safeFrequency, now, 0.008);
       this.output.gain.setTargetAtTime(this.running ? safeLevel * gateLevel : 0, now, 0.018);
       this.drive.curve = makeDriveCurve(scream);
       this.filter.frequency.setTargetAtTime(1600 + (1 - scream) * 5000, now, 0.03);
@@ -75,6 +100,10 @@
     getAnalyser() {
       return this.analyser;
     }
+  }
+
+  function clampFrequency(frequency) {
+    return Math.max(1, Math.min(20000, frequency));
   }
 
   function makeDriveCurve(amount) {
