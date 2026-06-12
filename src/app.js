@@ -215,7 +215,7 @@ function drawScope() {
   ctx.stroke();
 }
 
-function sendSyncResetOnSquareEdge(state, phase) {
+function detectSyncBiteEdge(state, phase) {
   const squareState = phase < 0.5 ? 1 : -1;
 
   if (!state.sync) {
@@ -231,7 +231,6 @@ function sendSyncResetOnSquareEdge(state, phase) {
   const now = performance.now();
   if (now - syncEdge.lastPulseAt < 3) return false;
 
-  engine.resetRamp();
   syncEdge.lastPulseAt = now;
   return true;
 }
@@ -244,12 +243,19 @@ function tick() {
   const base = state.pitch * centsToRatio(state.fine);
   const modulation = lfo * state.depth;
   const pitchCV = external.pitchCV * 120;
-  const syncResetSent = sendSyncResetOnSquareEdge(state, phase);
-  const syncBite = !engine.usingResettableRamp && syncResetSent;
+  const syncBite = detectSyncBiteEdge(state, phase);
   const gate = state.drone ? 1 : external.gate;
   const frequency = Math.max(100, base + modulation + pitchCV);
 
-  engine.update({ frequency, level: state.level, scream: state.scream, gate, syncBite });
+  engine.update({
+    frequency,
+    level: state.level,
+    scream: state.scream,
+    gate,
+    syncBite,
+    sync: state.sync,
+    lfoRate: state.rate,
+  });
   updateReadouts(state, frequency, lfo);
   drawScope();
 
