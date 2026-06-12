@@ -64,28 +64,28 @@
   border-radius: 999px !important;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.8) !important;
   transform-origin: 0% 50% !important;
-  transform: translateY(-50%) rotate(var(--turn, -135deg)) !important;
+  transform: translateY(-50%) rotate(var(--turn, 135deg)) !important;
   pointer-events: none !important;
 }
 
 .pitch-indicator {
-  left: 17.9% !important;
-  top: 30.1% !important;
+  left: 17.15% !important;
+  top: 28.55% !important;
 }
 
 .depth-indicator {
-  left: 37.5% !important;
-  top: 30.1% !important;
+  left: 36.57% !important;
+  top: 28.63% !important;
 }
 
 .rate-indicator {
-  left: 56.9% !important;
-  top: 30.1% !important;
+  left: 56.83% !important;
+  top: 28.65% !important;
 }
 
 .level-indicator {
-  left: 81.4% !important;
-  top: 60.0% !important;
+  left: 81.40% !important;
+  top: 57.47% !important;
 }
 
 .sync-indicator {
