@@ -33,7 +33,7 @@ class ResettableRampProcessor extends AudioWorkletProcessor {
     this.resetRequested = false;
     this.resetAccentSamples = 0;
     this.port.onmessage = (event) => {
-      if (event.data?.type === "sync-reset") {
+      if (event.data && event.data.type === "sync-reset") {
         this.resetRequested = true;
       }
     };
@@ -58,7 +58,7 @@ class ResettableRampProcessor extends AudioWorkletProcessor {
       if (this.resetRequested || (syncEnabled && lfoEdge)) {
         this.phase = 0;
         this.resetRequested = false;
-        this.resetAccentSamples = 12;
+        this.resetAccentSamples = Math.floor(sampleRate * 0.006);
       }
 
       let sample = this.phase * 2 - 1;
